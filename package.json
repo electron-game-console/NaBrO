@@ -18,5 +18,9 @@
   "license": "CC0-1.0",
   "devDependencies": {
     "electron": "~1.6.2"
+  },
+  "dependencies": {
+    "lodash": "^4.17.4",
+    "pug": "^2.0.0-rc.1"
   }
 }

@@ -41,10 +41,6 @@ app.on('activate', function () {
 });
 
 function createWindow () {
-    globalShortcut.register('Esc', function() {
-        app.quit();
-    });
-
     const {width, height} = electron.screen.getPrimaryDisplay().workAreaSize;
 
     // Create the browser window.
@@ -53,6 +49,31 @@ function createWindow () {
         height: height,
         fullscreen: true
     });
+
+	mainWindow.webContents.on('did-finish-load', function() {
+		var currentUrl = mainWindow.webContents.getURL();
+
+		// TODO Format with url.format();
+		var mainMenuUrl = 'file://' + __dirname + '/index.html';
+
+		console.log('Event: did-finish-load ' + currentUrl);
+
+		if(currentUrl === mainMenuUrl) {
+			globalShortcut.register('Esc', function() {
+				app.quit();
+			});
+		} else {
+			globalShortcut.unregister('Esc');
+		};
+	});
+
+	globalShortcut.register('F12', function() {
+		if(mainWindow.webContents.isDevToolsOpened()) {
+			mainWindow.webContents.closeDevTools();
+		} else {
+		    mainWindow.webContents.openDevTools();
+		}
+	});
 
     mainWindow.setMenu(null);
 
@@ -63,8 +84,7 @@ function createWindow () {
         slashes: true
     }));
 
-    // Open the DevTools.
-    // mainWindow.webContents.openDevTools()
+
 
     // Emitted when the window is closed.
     mainWindow.on('closed', function () {
