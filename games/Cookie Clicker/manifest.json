@@ -3,7 +3,8 @@
 	"author": "Orteil",
 	"site": "http://orteil.dashnet.org/",
 	"icon": "",
-	"manifest": {
-		"online": true
+	"requirements": {
+		"online": true,
+		"input": ["mouse/keyboard"]
 	}
 }

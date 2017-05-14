@@ -3,7 +3,8 @@
 	"author": "Evan Wallace",
 	"site": "http://madebyevan.com/",
 	"icon": "",
-	"manifest": {
-		"online": true
+	"requirements": {
+		"online": true,
+		"input": ["mouse/keyboard"]
 	}
 }
