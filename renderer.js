@@ -6,6 +6,7 @@
 
 const fs = require('fs');
 const path = require('path');
+const pug = require('pug');
 
 module.exports = {
 	loadGames: loadGames
@@ -21,12 +22,22 @@ function loadGames() {
 	});
 }
 
-function parseManifests(files) {
-	files.forEach(function(file) {
-		appendToDOM(file);
-	});
+function parseManifests(dirContents) {
+	appendToDOM(dirContents);
 }
 
-function appendToDOM(file) {
-	console.log(file);
+function appendToDOM(games) {
+	var gameMenu = document.getElementById('game-menu');
+
+	var menu = pug.renderFile(path.join(__dirname, 'templates/_game-menu.pug'), {
+		games: games
+	});
+
+	console.log(menu);
+
+	while(gameMenu.firstChild) {
+		gameMenu.removeChild(gameMenu.firstChild);
+	}
+
+	gameMenu.innerHTML = menu;
 }
