@@ -2,7 +2,6 @@
 	"title": "Cookie Clicker",
 	"author": "Orteil",
 	"site": "http://orteil.dashnet.org/",
-	"icon": "",
 	"requirements": {
 		"online": true,
 		"input": ["mouse/keyboard"]

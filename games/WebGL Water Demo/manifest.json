@@ -2,7 +2,6 @@
 	"title": "Cookie Clicker",
 	"author": "Evan Wallace",
 	"site": "http://madebyevan.com/",
-	"icon": "",
 	"requirements": {
 		"online": true,
 		"input": ["mouse/keyboard"]

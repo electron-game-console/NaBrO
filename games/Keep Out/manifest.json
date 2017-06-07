@@ -2,7 +2,6 @@
 	"title": "Keep Out!",
 	"author": "Little Workshop",
 	"site": "http://www.littleworkshop.fr/",
-	"icon": "",
 	"requirements": {
 		"online": true,
 		"input": ["mouse/keyboard"]
