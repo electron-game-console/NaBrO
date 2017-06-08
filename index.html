@@ -8,14 +8,17 @@
 	<body>
 		<h1>Electron Game Console Project</h1>
 		<div id="game-menu">
-			
+
 		</div>
 	</body>
 
 	<script>
-		// You can also require other files to run in this process
-		renderer = require('./renderer.js');
+		(function() {
+			// You can also require other files to run in this process
+			const GameMenuController = require('./app/GameMenu/GameMenuController');
+			const controller = new GameMenuController('game-menu');
 
-		window.onload = renderer.loadGames();
+			window.onload = controller.loadGames();
+		})();
 	</script>
 </html>
