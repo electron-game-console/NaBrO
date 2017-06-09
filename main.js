@@ -2,9 +2,11 @@
 
 const electron = require('electron');
 
+const localShortcut = require('electron-localshortcut');
+
 // Module to control application life.
 // Module to create native browser window.
-const {app, BrowserWindow, globalShortcut} = electron;
+const {app, BrowserWindow} = electron;
 
 const path = require('path');
 const url = require('url');
@@ -29,7 +31,7 @@ app.on('window-all-closed', function () {
 
 app.on('will-quit', function() {
     // Unregister all shortcuts.
-    globalShortcut.unregisterAll();
+    localShortcut.unregisterAll();
 });
 
 app.on('activate', function () {
@@ -50,6 +52,18 @@ function createWindow () {
         fullscreen: true
     });
 
+    localShortcut.register('Shift+Esc', function() {
+      app.quit();
+    });
+
+    localShortcut.register('F10', function() {
+  		if(mainWindow.webContents.isDevToolsOpened()) {
+  			mainWindow.webContents.closeDevTools();
+  		} else {
+  		    mainWindow.webContents.openDevTools();
+  		}
+  	});
+
 	mainWindow.webContents.on('did-finish-load', function() {
 		var currentUrl = mainWindow.webContents.getURL();
 
@@ -58,21 +72,6 @@ function createWindow () {
 
 		console.log('Event: did-finish-load ' + currentUrl);
 
-		if(currentUrl === mainMenuUrl) {
-			globalShortcut.register('Esc', function() {
-				app.quit();
-			});
-		} else {
-			globalShortcut.unregister('Esc');
-		};
-	});
-
-	globalShortcut.register('F12', function() {
-		if(mainWindow.webContents.isDevToolsOpened()) {
-			mainWindow.webContents.closeDevTools();
-		} else {
-		    mainWindow.webContents.openDevTools();
-		}
 	});
 
     mainWindow.setMenu(null);
