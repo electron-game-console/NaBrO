@@ -1,0 +1,9 @@
+{
+	"title": "GunFight.io",
+	"author": "",
+	"site": "http://www.gunfight.io/",
+	"requirements": {
+		"online": true,
+		"input": ["mouse/keyboard"]
+	}
+}
