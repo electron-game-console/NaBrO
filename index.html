@@ -3,6 +3,7 @@
 	<head>
 		<meta charset="UTF-8">
 		<title>Electron Game Console</title>
+		<link href="css/app.css" rel="stylesheet">
 	</head>
 
 	<body>
@@ -16,7 +17,7 @@
 			const GameMenuController = require('./app/GameMenu/GameMenuController');
 			const controller = new GameMenuController('game-menu');
 
-			window.onload = controller.loadGames();
+			window.onload = controller.loadGames;
 		})();
 	</script>
 </html>
