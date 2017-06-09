@@ -74,7 +74,7 @@ function createWindow () {
 		    mainWindow.webContents.openDevTools();
 		}
 	});
-mainWindow.webContents.openDevTools();
+
     mainWindow.setMenu(null);
 
     // and load the index.html of the app.
