@@ -1,0 +1,9 @@
+{
+	"title": "Basic Movement Demo",
+	"author": "phaser.io",
+	"site": "http://phaser.io/",
+	"requirements": {
+		"online": true,
+		"input": ["keyboard"]
+	}
+}
