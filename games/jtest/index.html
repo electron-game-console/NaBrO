@@ -5,158 +5,293 @@
     <title>Phaser - Making your first game, part 9</title>
 	<script type="text/javascript" src="js/phaser.min.js"></script>
     <style type="text/css">
-        body {
-            margin: 0;
-        }
+        body { margin: 0; }
+        canvas { margin: 0 auto; }
     </style>
 </head>
 <body>
 
 <script type="text/javascript">
 
-var game = new Phaser.Game(800, 600, Phaser.AUTO, '', { preload: preload, create: create, update: update });
+var windowWidth = 800;// window.screen.availWidth * window.devicePixelRatio;
+var windowHeight = 600;//window.screen.availHeight * window.devicePixelRatio;
+var velocity = 150;
+var scale = 1/4;
+
+var game = new Phaser.Game(windowWidth, windowHeight, Phaser.CANVAS, 'chewe', { preload: preload, create: create, update: update,render : render });
 
 function preload() {
 
-    game.load.image('sky', 'assets/sky.png');
-    game.load.image('ground', 'assets/platform.png');
-    game.load.image('star', 'assets/star.png');
-    game.load.spritesheet('dude', 'assets/dude.png', 32, 48);
-
+  //  game.load.image('ball','assets/dave/7.png');
+    game.load.atlas('head', 'assets/dave/daves.png', 'assets/dave/dave.json');
+    game.load.image('logo','assets/logos/le.png');
+    
+    
 }
 
-var player;
-var platforms;
-var cursors;
-
-var stars;
-var score = 0;
-var scoreText;
-
+var snakeHead; //head of snake sprite
+var snakeSection = new Array(); //array of sprites that make the snake body sections
+var snakePath = new Array(); //arrary of positions(points) that have to be stored for the path the sections follow
+//var numSnakeSections = 30; //number of snake body sections
+//var snakeSpacer = 6; //parameter that sets the spacing between sections
+var walls,cursors,logos;
 function create() {
 
-    //  We're going to be using physics, so enable the Arcade Physics system
     game.physics.startSystem(Phaser.Physics.ARCADE);
 
-    //  A simple background for our game
-    game.add.sprite(0, 0, 'sky');
+    game.world.setBounds(0, 0, windowWidth, windowHeight);
+    game.scale.scaleMode = Phaser.ScaleManager.SHOW_ALL;
+    game.scale.pageAlignVertically = true;
+    game.scale.updateLayout ( true );
+    cursors = game.input.keyboard.createCursorKeys();
 
-    //  The platforms group contains the ground and the 2 ledges we can jump on
-    platforms = game.add.group();
+    snakeHead = game.add.sprite(windowWidth/2, windowHeight/2, 'head'); //start head in middle
+    snakeHead.anchor.setTo(.5,.5)
 
-    //  We will enable physics for any object that is created in this group
-    platforms.enableBody = true;
+    snakeHead.scale.setTo(scale,scale);
+    game.physics.arcade.enable(snakeHead);
 
-    // Here we create the ground.
-    var ground = platforms.create(0, game.world.height - 64, 'ground');
+    snakeHead.body.collideWorldBounds = true;
+    // //  Init snakeSection array
+    // for (var i = 1; i <= numSnakeSections-1; i++)
+    // {
+    //     snakeSection[i] = game.add.sprite(400, 300, 'ball');
+    //     snakeSection[i].anchor.setTo(0.5, 0.5);
+    // }
+    
+    // //  Init snakePath array
+    // for (var i = 0; i <= numSnakeSections * snakeSpacer; i++)
+    // {
+    //     snakePath[i] = new Phaser.Point(400, 300);
+    // }
 
-    //  Scale it to fit the width of the game (the original sprite is 400x32 in size)
-    ground.scale.setTo(2, 2);
+    //  Finally some logos to collect
+    logos = game.add.group();
 
-    //  This stops it from falling away when you jump on it
-    ground.body.immovable = true;
-
-    //  Now let's create two ledges
-    var ledge = platforms.create(400, 400, 'ground');
-    ledge.body.immovable = true;
-
-    ledge = platforms.create(-150, 250, 'ground');
-    ledge.body.immovable = true;
-
-    // The player and its settings
-    player = game.add.sprite(32, game.world.height - 150, 'dude');
-
-    //  We need to enable physics on the player
-    game.physics.arcade.enable(player);
-
-    //  Player physics properties. Give the little guy a slight bounce.
-    player.body.bounce.y = 0.2;
-    player.body.gravity.y = 300;
-    player.body.collideWorldBounds = true;
-
-    //  Our two animations, walking left and right.
-    player.animations.add('left', [0, 1, 2, 3], 10, true);
-    player.animations.add('right', [5, 6, 7, 8], 10, true);
-
-    //  Finally some stars to collect
-    stars = game.add.group();
-
-    //  We will enable physics for any star that is created in this group
-    stars.enableBody = true;
-
-    //  Here we'll create 12 of them evenly spaced apart
-    for (var i = 0; i < 12; i++)
+    //  We will enable physics for any logo that is created in this group
+    logos.enableBody = true;
+    for (var i = 0; i < 3; i++)
     {
-        //  Create a star inside of the 'stars' group
-        var star = stars.create(i * 70, 0, 'star');
+        //  Create a logo inside of the 'logos' group
+        var logo = logos.create(i * 700 * Math.random(), i * 500 * Math.random(), 'logo');
+        logo.scale.setTo(scale,scale);
+        logo.body.velocity.x = velocity * Math.random() * (Math.random() > .5 ? 1 : -1);
+        logo.body.velocity.y = velocity * Math.random() * (Math.random() > .5 ? 1 : -1);
+        logo.body.bounce.y = 0.7 + Math.random() * 0.2;
 
-        //  Let gravity do its thing
-        star.body.gravity.y = 300;
-
-        //  This just gives each star a slightly random bounce value
-        star.body.bounce.y = 0.7 + Math.random() * 0.2;
+    logo.body.collideWorldBounds = true;
     }
 
     //  The score
-    scoreText = game.add.text(16, 16, 'score: 0', { fontSize: '32px', fill: '#000' });
+    scoreText = game.add.text(16, 16, 'score: 0', { fontSize: '32px', fill: '#fff' });
 
-    //  Our controls.
-    cursors = game.input.keyboard.createCursorKeys();
-    
 }
-
 function update() {
 
-    //  Collide the player and the stars with the platforms
-    game.physics.arcade.collide(player, platforms);
-    game.physics.arcade.collide(stars, platforms);
-
-    //  Checks to see if the player overlaps with any of the stars, if he does call the collectStar function
-    game.physics.arcade.overlap(player, stars, collectStar, null, this);
-
-    //  Reset the players velocity (movement)
-    player.body.velocity.x = 0;
-
-    if (cursors.left.isDown)
+    if (cursors.left.isDown) //LEFT
     {
-        //  Move to the left
-        player.body.velocity.x = -150;
-
-        player.animations.play('left');
+        snakeHead.body.velocity.x = velocity*-1;
+        snakeHead.body.velocity.y =0;
+        snakeHead.scale.x = -scale;
+        snakeHead.frame = 7;
     }
-    else if (cursors.right.isDown)
+    else if (cursors.right.isDown) //RIGHT
     {
-        //  Move to the right
-        player.body.velocity.x = 150;
-
-        player.animations.play('right');
+        snakeHead.body.velocity.x = velocity
+        snakeHead.body.velocity.y =0;
+        snakeHead.scale.x = scale;
+        snakeHead.frame = 6;
     }
-    else
+    else if (cursors.up.isDown) //UP
     {
-        //  Stand still
-        player.animations.stop();
-
-        player.frame = 4;
+        snakeHead.body.velocity.x = 0;
+        snakeHead.body.velocity.y =velocity*-1;
+        snakeHead.frame = 4;
     }
-    
-    //  Allow the player to jump if they are touching the ground.
-    if (cursors.up.isDown && player.body.touching.down)
+    else if (cursors.down.isDown) //DONW
     {
-        player.body.velocity.y = -350;
+        snakeHead.body.velocity.x = 0
+        snakeHead.body.velocity.y =velocity;
+        snakeHead.frame = 8;
     }
+
+    // if (cursors.up.isDown)
+    // {
+    //     snakeHead.body.velocity.copyFrom(game.physics.arcade.velocityFromAngle(snakeHead.angle, 300));
+
+    //     // Everytime the snake head moves, insert the new location at the start of the array, 
+    //     // and knock the last position off the end
+
+    //     var part = snakePath.pop();
+
+    //     part.setTo(snakeHead.x, snakeHead.y);
+
+    //     snakePath.unshift(part);
+
+    //     for (var i = 1; i <= numSnakeSections - 1; i++)
+    //     {
+    //         snakeSection[i].x = (snakePath[i * snakeSpacer]).x;
+    //         snakeSection[i].y = (snakePath[i * snakeSpacer]).y;
+    //     }
+    // }
+
+    // if (cursors.left.isDown)
+    // {
+    //     snakeHead.body.angularVelocity = -300;
+    // }
+    // else if (cursors.right.isDown)
+    // {
+    //     snakeHead.body.angularVelocity = 300;
+    // }
 
 }
 
-function collectStar (player, star) {
+function render() {
+
+   // game.debug.spriteInfo(snakeHead, 32, 32);
+
+ }
+// function preload() {
+
+//     game.load.image('sky', 'assets/sky.png');
+//     game.load.image('ground', 'assets/platform.png');
+//     game.load.image('star', 'assets/star.png');
+//     game.load.spritesheet('dude', 'assets/dude.png', 32, 48);
+
+// }
+
+// var player;
+// var platforms;
+// var cursors;
+
+// var stars;
+// var score = 0;
+// var scoreText;
+
+// function create() {
+
+//     //  We're going to be using physics, so enable the Arcade Physics system
+//     game.physics.startSystem(Phaser.Physics.ARCADE);
+
+//     //  A simple background for our game
+//     game.add.sprite(0, 0, 'sky');
+
+//     //  The platforms group contains the ground and the 2 ledges we can jump on
+//     platforms = game.add.group();
+
+//     //  We will enable physics for any object that is created in this group
+//     platforms.enableBody = true;
+
+//     // Here we create the ground.
+//     var ground = platforms.create(0, game.world.height - 64, 'ground');
+
+//     //  Scale it to fit the width of the game (the original sprite is 400x32 in size)
+//     ground.scale.setTo(2, 2);
+
+//     //  This stops it from falling away when you jump on it
+//     ground.body.immovable = true;
+
+//     //  Now let's create two ledges
+//     var ledge = platforms.create(400, 400, 'ground');
+//     ledge.body.immovable = true;
+
+//     ledge = platforms.create(-150, 250, 'ground');
+//     ledge.body.immovable = true;
+
+//     // The player and its settings
+//     player = game.add.sprite(32, game.world.height - 150, 'dude');
+
+//     //  We need to enable physics on the player
+//     game.physics.arcade.enable(player);
+
+//     //  Player physics properties. Give the little guy a slight bounce.
+//     player.body.bounce.y = 0.2;
+//     player.body.gravity.y = 300;
+//     player.body.collideWorldBounds = true;
+
+//     //  Our two animations, walking left and right.
+//     player.animations.add('left', [0, 1, 2, 3], 10, true);
+//     player.animations.add('right', [5, 6, 7, 8], 10, true);
+
+//     //  Finally some stars to collect
+//     stars = game.add.group();
+
+//     //  We will enable physics for any star that is created in this group
+//     stars.enableBody = true;
+
+//     //  Here we'll create 12 of them evenly spaced apart
+//     for (var i = 0; i < 12; i++)
+//     {
+//         //  Create a star inside of the 'stars' group
+//         var star = stars.create(i * 70, 0, 'star');
+
+//         //  Let gravity do its thing
+//         star.body.gravity.y = 300;
+
+//         //  This just gives each star a slightly random bounce value
+//         star.body.bounce.y = 0.7 + Math.random() * 0.2;
+//     }
+
+//     //  The score
+//     scoreText = game.add.text(16, 16, 'score: 0', { fontSize: '32px', fill: '#000' });
+
+//     //  Our controls.
+//     cursors = game.input.keyboard.createCursorKeys();
     
-    // Removes the star from the screen
-    star.kill();
+// }
 
-    //  Add and update the score
-    score += 10;
-    scoreText.text = 'Score: ' + score;
+// function update() {
 
-}
+//     //  Collide the player and the stars with the platforms
+//     game.physics.arcade.collide(player, platforms);
+//     game.physics.arcade.collide(stars, platforms);
+
+//     //  Checks to see if the player overlaps with any of the stars, if he does call the collectStar function
+//     game.physics.arcade.overlap(player, stars, collectStar, null, this);
+
+//     //  Reset the players velocity (movement)
+//     player.body.velocity.x = 0;
+
+//     if (cursors.left.isDown)
+//     {
+//         //  Move to the left
+//         player.body.velocity.x = -150;
+
+//         player.animations.play('left');
+//     }
+//     else if (cursors.right.isDown)
+//     {
+//         //  Move to the right
+//         player.body.velocity.x = 150;
+
+//         player.animations.play('right');
+//     }
+//     else
+//     {
+//         //  Stand still
+//         player.animations.stop();
+
+//         player.frame = 4;
+//     }
+    
+//     //  Allow the player to jump if they are touching the ground.
+//     if (cursors.up.isDown && player.body.touching.down)
+//     {
+//         player.body.velocity.y = -350;
+//     }
+
+// }
+
+// function collectStar (player, star) {
+    
+//     // Removes the star from the screen
+//     star.kill();
+
+//     //  Add and update the score
+//     score += 10;
+//     scoreText.text = 'Score: ' + score;
+
+// }
 
 </script>
 
