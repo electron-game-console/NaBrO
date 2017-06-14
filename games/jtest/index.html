@@ -34,7 +34,21 @@ var snakeSection = new Array(); //array of sprites that make the snake body sect
 var snakePath = new Array(); //arrary of positions(points) that have to be stored for the path the sections follow
 //var numSnakeSections = 30; //number of snake body sections
 //var snakeSpacer = 6; //parameter that sets the spacing between sections
-var walls,cursors,logos;
+var walls,cursors,logos,timer;
+var score =0;
+var gameObjs = {
+     spawn: function (){
+        //  Create a logo inside of the 'logos' group
+        var logo = logos.create( windowWidth * Math.random(), windowHeight * Math.random(), 'logo');
+        logo.scale.setTo(scale,scale);
+        logo.body.velocity.x = velocity * Math.random() * (Math.random() > .5 ? 1 : -1);
+        logo.body.velocity.y = velocity * Math.random() * (Math.random() > .5 ? 1 : -1);
+        logo.body.bounce.y = 1 * Math.random() + .2;
+        logo.body.bounce.x = 1 * Math.random() + .2;
+        logo.body.collideWorldBounds = true;
+        logo.lifespan = 5000 - (score*4);
+    }
+}
 function create() {
 
     game.physics.startSystem(Phaser.Physics.ARCADE);
@@ -52,6 +66,8 @@ function create() {
     game.physics.arcade.enable(snakeHead);
 
     snakeHead.body.collideWorldBounds = true;
+
+    timer = game.time.events.loop(2000, function() { gameObjs.spawn(); });
     // //  Init snakeSection array
     // for (var i = 1; i <= numSnakeSections-1; i++)
     // {
@@ -70,24 +86,19 @@ function create() {
 
     //  We will enable physics for any logo that is created in this group
     logos.enableBody = true;
-    for (var i = 0; i < 3; i++)
-    {
-        //  Create a logo inside of the 'logos' group
-        var logo = logos.create(i * 700 * Math.random(), i * 500 * Math.random(), 'logo');
-        logo.scale.setTo(scale,scale);
-        logo.body.velocity.x = velocity * Math.random() * (Math.random() > .5 ? 1 : -1);
-        logo.body.velocity.y = velocity * Math.random() * (Math.random() > .5 ? 1 : -1);
-        logo.body.bounce.y = 0.7 + Math.random() * 0.2;
-
-    logo.body.collideWorldBounds = true;
-    }
+  
 
     //  The score
     scoreText = game.add.text(16, 16, 'score: 0', { fontSize: '32px', fill: '#fff' });
-
+  
 }
+
 function update() {
 
+
+    game.physics.arcade.collide(logos);
+    game.physics.arcade.overlap(snakeHead, logos, collectLogo, null, this);
+    
     if (cursors.left.isDown) //LEFT
     {
         snakeHead.body.velocity.x = velocity*-1;
@@ -145,7 +156,17 @@ function update() {
     // }
 
 }
+function collectLogo (player, logo) {
+    
+    // Removes the star from the screen
+    logo.kill();
 
+    //  Add and update the score
+    score += 10;
+    velocity += 5;
+    scoreText.text = 'Score: ' + score;
+
+ }
 function render() {
 
    // game.debug.spriteInfo(snakeHead, 32, 32);
@@ -292,7 +313,7 @@ function render() {
 //     scoreText.text = 'Score: ' + score;
 
 // }
-
+//https://github.com/CodeAndWeb/phaser-p2-physics-example/blob/master/
 </script>
 
 </body>
