@@ -1,0 +1,8 @@
+html, body {
+	min-height: 100vh;
+	min-width: 100vw;
+}
+
+body {
+	background: radial-gradient(ellipse at center, rgba(147,206,222,1) 0%, rgba(112,180,199,1) 41%, rgba(28,87,105,1) 100%);
+}
