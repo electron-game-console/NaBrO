@@ -9,8 +9,11 @@ function BaseController() {
 	this.path = path;
 	this.pug = pug;
 
+	this.bindEvents = function() { };
 	this.render = render;
 	this.attach = attach;
+	this.removeChildren = removeChildren;
+
 
 	function render(model, fileName) {
 		var templatePath = getTemplatePath(fileName);
@@ -21,12 +24,13 @@ function BaseController() {
 	}
 
 	function attach(node, dom) {
-		// Clear the node of children
+		node.innerHTML = dom;
+	}
+
+	function removeChildren(node) {
 		while(node.firstChild) {
 			node.removeChild(node.firstChild);
 		}
-
-		node.innerHTML = dom;
 	}
 
 	function getTemplatePath(fileName) {

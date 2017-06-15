@@ -6,16 +6,23 @@ const BaseController = require('../BaseController');
 
 GameMenuController.prototype = new BaseController();
 
-function GameMenuController(elementId) {
+function GameMenuController(node, model) {
 	var self = this;
 
+	this.bindEvents = bindEvents;
 	this.loadGames = loadGames;
+
+	function bindEvents() {
+		window.addEventListener('load', loadGames);
+	}
 
 	function loadGames() {
 		fs.readdir(path.join(__dirname, '/../../games'), function(err, files) {
 			if(!err) {
-				var domNode = self.render( { games: files }, __filename);
-				self.attach(document.getElementById(elementId), domNode);
+				model = { games: files };
+				var gameList = self.render(model, __filename);
+				self.removeChildren(gameList);
+				self.attach(node, gameList);
 			} else {
 				console.error(err);
 			}
