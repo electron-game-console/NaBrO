@@ -8,7 +8,7 @@
 
 	<body>
 		<h1>NaBrO</h1>
-		<div id="game-menu"></div>
+		<div class="game-menu"></div>
 	</body>
 
 	<script>
@@ -16,7 +16,7 @@
 			// You can also require other files to run in this process
 			const GameMenuController = require('./app/GameMenu/GameMenuController');
 
-			const menuController = new GameMenuController(document.getElementById('game-menu'));
+			const menuController = new GameMenuController(document.querySelector('.game-menu'));
 			console.log(menuController);
 			menuController.bindEvents();
 		})();
