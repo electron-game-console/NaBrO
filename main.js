@@ -68,9 +68,6 @@ function createWindow () {
 	mainWindow.webContents.on('did-finish-load', function() {
 		var currentUrl = mainWindow.webContents.getURL();
 
-		// TODO Format with url.format();
-		var mainMenuUrl = 'file://' + __dirname + '/index.html';
-
 		console.log('Event: did-finish-load ' + currentUrl);
 
 	});
