@@ -2,12 +2,15 @@
 
 const electron = require('electron');
 
+const localShortcut = require('electron-localshortcut');
+
 // Module to control application life.
 // Module to create native browser window.
-const {app, BrowserWindow, globalShortcut} = electron;
-
+const {app, BrowserWindow} = electron;
 const path = require('path');
 const url = require('url');
+
+app.commandLine.appendSwitch('ignore-gpu-blacklist');
 
 // Keep a global reference of the window object, if you don't, the window will
 // be closed automatically when the JavaScript object is garbage collected.
@@ -29,7 +32,7 @@ app.on('window-all-closed', function () {
 
 app.on('will-quit', function() {
     // Unregister all shortcuts.
-    globalShortcut.unregisterAll();
+    localShortcut.unregisterAll();
 });
 
 app.on('activate', function () {
@@ -50,29 +53,27 @@ function createWindow () {
         fullscreen: true
     });
 
+    localShortcut.register('Shift+Esc', function() {
+      app.quit();
+    });
+
+	var devToolsKey = null;
+
+	if(process.platform === 'linux') {
+		devToolsKey = 'F12';
+	} else {
+		devToolsKey = 'Shift+F10';
+	}
+
+    localShortcut.register(devToolsKey, function() {
+  		toggleDevTools();
+  	});
+
 	mainWindow.webContents.on('did-finish-load', function() {
 		var currentUrl = mainWindow.webContents.getURL();
 
-		// TODO Format with url.format();
-		var mainMenuUrl = 'file://' + __dirname + '/index.html';
-
 		console.log('Event: did-finish-load ' + currentUrl);
 
-		if(currentUrl === mainMenuUrl) {
-			globalShortcut.register('Esc', function() {
-				app.quit();
-			});
-		} else {
-			globalShortcut.unregister('Esc');
-		};
-	});
-
-	globalShortcut.register('F12', function() {
-		if(mainWindow.webContents.isDevToolsOpened()) {
-			mainWindow.webContents.closeDevTools();
-		} else {
-		    mainWindow.webContents.openDevTools();
-		}
 	});
 mainWindow.webContents.openDevTools();
     mainWindow.setMenu(null);
@@ -93,6 +94,14 @@ mainWindow.webContents.openDevTools();
         // when you should delete the corresponding element.
         mainWindow = null;
     });
+}
+
+function toggleDevTools() {
+	if(mainWindow.webContents.isDevToolsOpened()) {
+		mainWindow.webContents.closeDevTools();
+	} else {
+		mainWindow.webContents.openDevTools();
+	}
 }
 
 // In this file you can include the rest of your app's specific main process

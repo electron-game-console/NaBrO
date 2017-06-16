@@ -1,0 +1,27 @@
+{
+	"title": "EDJEipede",
+	"author": "Leading EDJE",
+	"site": "http://leadingedje.com",
+	"requirements": {
+		"online": false,
+		"input": ["keyboard"]
+	},
+	"keybindings": {
+		"buttons": [
+			{"button": "A", "keyCode": "Z"},
+			{"button": "X", "keyCode": "Z"},
+			{"button": "B", "keyCode": "Z"},
+			{"button": "Y", "keyCode": "Z"},
+			{"button": "L", "keyCode": null},
+			{"button": null, "keyCode": null},
+			{"button": "R", "keyCode": null},
+			{"button": null, "keyCode": null},
+			{"button": "SELECT", "keyCode": null},
+			{"button": "START", "keyCode": null}
+		],
+		"axes": [
+			[ "Left", "Right" ],
+			[ "Up", "Down" ]
+		]
+	}
+}

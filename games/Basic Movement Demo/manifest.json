@@ -1,0 +1,27 @@
+{
+	"title": "Basic Movement Demo",
+	"author": "phaser.io",
+	"site": "http://phaser.io/",
+	"requirements": {
+		"online": true,
+		"input": ["keyboard"]
+	},
+	"keybindings": {
+		"buttons": [
+			{"button": "X", "keyCode": "Up"},
+			{"button": "A", "keyCode": "Right"},
+			{"button": "B", "keyCode": "Down"},
+			{"button": "Y", "keyCode": "Left"},
+			{"button": "L", "keyCode": "Left"},
+			{"button": null, "keyCode": null},
+			{"button": "R", "keyCode": "Right"},
+			{"button": null, "keyCode": null},
+			{"button": "SELECT", "keyCode": "Left"},
+			{"button": "START", "keyCode": "Right"}
+		],
+		"axes": [
+			[ "Left", "Right" ],
+			[ "Up", "Down" ]
+		]
+	}
+}
