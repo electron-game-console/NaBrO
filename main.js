@@ -57,12 +57,16 @@ function createWindow () {
       app.quit();
     });
 
-    localShortcut.register('Shift+F10', function() {
-  		if(mainWindow.webContents.isDevToolsOpened()) {
-  			mainWindow.webContents.closeDevTools();
-  		} else {
-  		    mainWindow.webContents.openDevTools();
-  		}
+	var devToolsKey = null;
+
+	if(process.platform === 'linux') {
+		devToolsKey = 'F12';
+	} else {
+		devToolsKey = 'Shift+F10';
+	}
+
+    localShortcut.register(devToolsKey, function() {
+  		toggleDevTools();
   	});
 
 	mainWindow.webContents.on('did-finish-load', function() {
@@ -90,6 +94,14 @@ function createWindow () {
         // when you should delete the corresponding element.
         mainWindow = null;
     });
+}
+
+function toggleDevTools() {
+	if(mainWindow.webContents.isDevToolsOpened()) {
+		mainWindow.webContents.closeDevTools();
+	} else {
+		mainWindow.webContents.openDevTools();
+	}
 }
 
 // In this file you can include the rest of your app's specific main process
