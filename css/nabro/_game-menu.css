@@ -7,8 +7,9 @@
 .game-menu li {
 	flex-grow: 1;
 	margin: 1rem;
-	max-width: 33.33vw;
+	max-width: 30vw;
 	text-overflow: ellipsis;
+	width: 30vw;
 }
 
 .game-menu a,
@@ -31,8 +32,8 @@
 .game-menu a > img {
 	display: block;
 	float: left;
-	height: auto;
-	width: 33.33%;
+	height: 100%;
+	width: auto;
 }
 
 .game-menu a > p {
