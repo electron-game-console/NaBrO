@@ -85,9 +85,7 @@ function update() {
     game.physics.arcade.collide(logos);
     game.physics.arcade.collide(logos, snakeSection);
     game.physics.arcade.collide(snakeHead, snakeSection);
-    if(won) {return;}
-    game.physics.arcade.overlap(snakeHead, logos, collectLogo, null, this);
-    
+
     if (cursors.left.isDown && lastKey != cursors.right) //LEFT
     {
         lastKey =cursors.left;
@@ -118,21 +116,10 @@ function update() {
         snakeHead.body.velocity.y =velocity;
         snakeHead.frame = 8;
     }
-
-    //     snakeHead.body.velocity.copyFrom(game.physics.arcade.velocityFromAngle(snakeHead.angle, 300));
-
-    //     // Everytime the snake head moves, insert the new location at the start of the array, 
-    //     // and knock the last position off the end
-    updateBody();
-    // var part = snakePath.pop();
-    // part.setTo(snakeHead.x,snakeHead.y);
-    // snakePath.unshift(part);    
-    // for (var i = 1; i < snakePath.length; i++)
-    // {
-    //     snakeSection[i-1].x = snakePath[i].x;
-    //     snakeSection[i-1].y = snakePath[i].y;
-    // }
+    if(won) {return;}
+    game.physics.arcade.overlap(snakeHead, logos, collectLogo, null, this);
     
+    updateBody();   
 
 }
 
@@ -163,30 +150,18 @@ function collectLogo (player, logo) {
     snakeBody(player);
     //  Add and update the score
     score += 1;
-    velocity += 5;
+    velocity += 10;
     scoreText.text = 'EDJERS: ' + score;
    if(score >=edjers){ win();}
    
  }
 
-//  function makeBody(x,y){
-//     var i = snakeSection.push(game.add.sprite(x,y, 'body'))-1;
-//     snakePath.push(new Phaser.Point(x,y));
-//     snakeSection[i].anchor.setTo(0.5, 0.5);
-//     snakeSection[i].scale.setTo(scale,scale);
-//     snakeSection[i].frame = snakeSection.length % 7;
-    
-//  }
 function snakeBody(player){
-    // var x=(player.x);
-    // var y=(player.y);
     var p = player;
     if(snakePath.length){
        p= snakePath[snakePath.length-1]   
     }
 
-    // snakePath.splice(0,0,new Phaser.Point(player.x,player.y));
-    // snakePath.pop();
     var i = snakeSection.push(game.add.sprite(p.x, p.y, 'body'))-1;
   
     snakeSection[i].anchor.setTo(0.5, 0.5);
@@ -210,17 +185,15 @@ function render() {
     snakeHead.frame = 2;
     snakeHead.x =windowWidth/2;
     snakeHead.y =windowHeight/2;
-    snakeHead.scale.setTo(1,1);
     scoreText.text = 'You got all the EDJERS!!!';
     for(let i = 0; i < snakeSection.length; i++ ){     
         snakeSection[i].body.velocity.x = velocity * Math.random() * (Math.random() > .5 ? 1 : -1);
         snakeSection[i].body.velocity.y = velocity * Math.random() * (Math.random() > .5 ? 1 : -1);
-        snakeSection[i].body.bounce.y = 1.8;
-        snakeSection[i].body.bounce.x = 1.8;//* Math.random() + .3;
+        snakeSection[i].body.bounce.y = .9;
+        snakeSection[i].body.bounce.x = .9;
         snakeSection[i].body.collideWorldBounds = true;
     }
  }
-//https://github.com/CodeAndWeb/phaser-p2-physics-example/blob/master/
 </script>
 
 </body>
