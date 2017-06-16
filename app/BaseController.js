@@ -9,27 +9,48 @@ function BaseController() {
 	this.path = path;
 	this.pug = pug;
 
+	this.templatePath = null;
+	this.fileName = null;
+
+	this.model = {};
+
+	this.node = null;
+	this.parent = null;
+	this.children = [];
+
 	this.bindEvents = function() { };
 	this.render = render;
-	this.attach = attach;
+	this.append = append;
 	this.removeChildren = removeChildren;
 
 
-	function render(model, fileName) {
-		var templatePath = getTemplatePath(fileName);
+	function render() {
+		self.removeChildren();
 
-		var node = self.pug.renderFile(templatePath, model);
+		self.children.forEach(function(child) {
+			self.append(child.render());
+		});
 
-		return node;
+		self.templatePath = getTemplatePath(self.fileName);
+
+		var view = self.pug.renderFile(self.templatePath, self.model);
+
+		return document.createRange().createContextualFragment(view).firstChild;
 	}
 
-	function attach(node, dom) {
-		node.innerHTML = dom;
+	function append(childDom) {
+		self.node.appendChild(childDom);
 	}
 
-	function removeChildren(node) {
-		while(node.firstChild) {
-			node.removeChild(node.firstChild);
+	function removeChildren() {
+		console.log(self.node);
+
+		if(!self.node) {
+			return;
+		}
+
+		while(self.node.firstChild) {
+			self.node.removeChild(self.node.firstChild);
 		}
 	}
 
