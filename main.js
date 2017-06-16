@@ -7,9 +7,10 @@ const localShortcut = require('electron-localshortcut');
 // Module to control application life.
 // Module to create native browser window.
 const {app, BrowserWindow} = electron;
-
 const path = require('path');
 const url = require('url');
+
+app.commandLine.appendSwitch('ignore-gpu-blacklist');
 
 // Keep a global reference of the window object, if you don't, the window will
 // be closed automatically when the JavaScript object is garbage collected.
@@ -56,7 +57,7 @@ function createWindow () {
       app.quit();
     });
 
-    localShortcut.register('F10', function() {
+    localShortcut.register('Shift+F10', function() {
   		if(mainWindow.webContents.isDevToolsOpened()) {
   			mainWindow.webContents.closeDevTools();
   		} else {
