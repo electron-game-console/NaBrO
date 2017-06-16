@@ -1,0 +1,23 @@
+html, body {
+	font-family: sans-serif;
+	font-size: 14px;
+	min-height: 100vh;
+	min-width: 100vw;
+}
+
+body {
+	background: radial-gradient(ellipse at center, rgba(147,206,222,1) 0%, rgba(112,180,199,1) 41%, rgba(28,87,105,1) 100%);
+}
+
+body h1 {
+	background-color: rgba(0, 0, 0, .75);
+	border-bottom-right-radius: 1rem;
+	color: rgb(200, 200, 200);
+	font-size: 3rem;
+	font-style: italic;
+	left: 0;
+	max-width: 4em;
+	position: static;
+	text-align: center;
+	top: 0;
+}

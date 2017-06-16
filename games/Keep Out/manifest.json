@@ -5,5 +5,23 @@
 	"requirements": {
 		"online": true,
 		"input": ["mouse/keyboard"]
+	},
+	"keybindings": {
+		"buttons": [
+			{"button": "X", "keyCode": null},
+			{"button": "A", "keyCode": "Space"},
+			{"button": "B", "keyCode": null},
+			{"button": "Y", "keyCode": null},
+			{"button": "L", "keyCode": "Q"},
+			{"button": null, "keyCode": null},
+			{"button": "R", "keyCode": "E"},
+			{"button": null, "keyCode": null},
+			{"button": "SELECT", "keyCode": "Tab"},
+			{"button": "START", "keyCode": "Enter"}
+		],
+		"axes": [
+			[ "A", "D" ],
+			[ "W", "S" ]
+		]
 	}
 }

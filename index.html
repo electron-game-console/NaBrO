@@ -2,21 +2,25 @@
 <html>
 	<head>
 		<meta charset="UTF-8">
-		<title>Electron Game Console</title>
+		<title>NaBrO</title>
+		<link href="css/app.css" rel="stylesheet">
 	</head>
 
 	<body>
-		<h1>Electron Game Console Project</h1>
-		<div id="game-menu"></div>
+		<h1>NaBrO</h1>
+		<div class="game-menu"></div>
 	</body>
 
 	<script>
 		(function() {
+			'use strict';
+
 			// You can also require other files to run in this process
 			const GameMenuController = require('./app/GameMenu/GameMenuController');
-			const controller = new GameMenuController('game-menu');
 
-			window.onload = controller.loadGames();
+			const menuController = new GameMenuController(document.querySelector('.game-menu'));
+			console.log(menuController);
+			menuController.bindEvents();
 		})();
 	</script>
 </html>

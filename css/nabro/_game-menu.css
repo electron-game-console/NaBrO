@@ -1,0 +1,41 @@
+.game-menu > ul {
+	align-content: space-between;
+	display: flex;
+	flex-wrap: wrap;
+}
+
+.game-menu li {
+	flex-grow: 1;
+	margin: 1rem;
+	max-width: 30vw;
+	text-overflow: ellipsis;
+	width: 30vw;
+}
+
+.game-menu a,
+.game-menu a:visited {
+	align-items: center;
+	background-color: rgba(0, 0, 0, .75);
+	color: rgb(200, 200, 200);
+	display: flex;
+	height: 20vh;
+	font-size: 2rem;
+	text-decoration: none;
+}
+
+.game-menu a:hover,
+.game-menu a:focus {
+	background-color: rgba(0, 0, 0, .65);
+	box-shadow: 0px 0px 15px 5px rgba(255, 255, 255, .65);
+}
+
+.game-menu a > img {
+	display: block;
+	float: left;
+	height: 100%;
+	width: auto;
+}
+
+.game-menu a > p {
+	margin-left: 1rem;
+}
