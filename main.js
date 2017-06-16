@@ -75,7 +75,7 @@ function createWindow () {
 		console.log('Event: did-finish-load ' + currentUrl);
 
 	});
-
+mainWindow.webContents.openDevTools();
     mainWindow.setMenu(null);
 
     // and load the index.html of the app.
