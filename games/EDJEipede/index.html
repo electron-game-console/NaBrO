@@ -169,7 +169,7 @@ function snakeBody(player){
   
     snakeSection[i].anchor.setTo(0.5, 0.5);
     snakeSection[i].scale.setTo(scale,scale);
-    snakeSection[i].frame = snakeSection.length % edjers;
+    snakeSection[i].frame = snakeSection.length-1 % edjers;
     
     snakePath.push(new Phaser.Point(p.x,p.y))
     updateBody();
