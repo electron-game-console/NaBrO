@@ -13,11 +13,11 @@
 
 <script type="text/javascript">
 
-var windowWidth = 800;// window.screen.availWidth * window.devicePixelRatio;
-var windowHeight = 600;//window.screen.availHeight * window.devicePixelRatio;
+var windowWidth = 1920;// window.screen.availWidth * window.devicePixelRatio;
+var windowHeight = 1080;//window.screen.availHeight * window.devicePixelRatio;
 var velocity = 150;
 var scale = 1/4;
-var edjers = 42;
+var edjers = 41;
 var game = new Phaser.Game(windowWidth, windowHeight, Phaser.CANVAS, 'chewe', { preload: preload, create: create, update: update,render : render });
 
 function preload() {
@@ -83,9 +83,12 @@ var won =false;
 function update() {
 
     game.physics.arcade.collide(logos);
+    game.physics.arcade.collide(snakeSection);
     game.physics.arcade.collide(logos, snakeSection);
     game.physics.arcade.collide(snakeHead, snakeSection);
-
+    if (won || !snakeSection.length){
+        lastKey = '';
+    }
     if (cursors.left.isDown && lastKey != cursors.right) //LEFT
     {
         lastKey =cursors.left;
