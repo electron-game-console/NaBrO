@@ -1,6 +1,6 @@
 ul
 	each game in games
 		li
-			a.game-menu-game(href='games/' + game.link + '/index.html')
+			a.game-menu-game-link(href='games/' + game.link + '/index.html')
 				img(src=game.imagePath) 
 				p #{game.title}

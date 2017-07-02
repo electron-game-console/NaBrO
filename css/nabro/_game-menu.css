@@ -6,9 +6,10 @@
 
 .game-menu li {
 	flex-grow: 1;
-	margin: 1rem;
-	max-width: 33.33vw;
-	text-overflow: ellipsis;
+	margin-left: 2.5vw;
+	margin-top: 2.5vw;
+	width: 30vw;
+	max-width: 30vw;
 }
 
 .game-menu a,
@@ -19,6 +20,8 @@
 	display: flex;
 	height: 20vh;
 	font-size: 2rem;
+	line-height: 100%;
+	overflow: hidden;
 	text-decoration: none;
 }
 
@@ -31,10 +34,14 @@
 .game-menu a > img {
 	display: block;
 	float: left;
-	height: auto;
-	width: 33.33%;
+	height: 20vh;
+	width: 20vh;
 }
 
 .game-menu a > p {
 	margin-left: 1rem;
+	max-width: 20vw;
+	overflow: hidden;
+	text-overflow: ellipsis;
+	white-space: nowrap;
 }

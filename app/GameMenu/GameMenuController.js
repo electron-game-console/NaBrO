@@ -15,6 +15,7 @@ function GameMenuController(node) {
 
 	this.bindEvents = bindEvents;
 	this.loadGames = loadGames;
+	this.focusMenu = focusMenu;
 
 	function bindEvents() {
 		window.addEventListener('load', function() {
@@ -44,7 +45,14 @@ function GameMenuController(node) {
 			} else {
 				console.error(err);
 			}
+
+			self.focusMenu();
 		});
+	}
+
+	function focusMenu() {
+		var menuEntries = document.querySelectorAll('a.game-menu-game-link');
+		menuEntries[0].focus();
 	}
 }
 
