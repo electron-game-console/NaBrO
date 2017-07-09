@@ -1,6 +1,6 @@
-<!doctype html> 
-<html lang="en"> 
-<head> 
+<!doctype html>
+<html lang="en">
+<head>
 	<meta charset="UTF-8" />
     <title>Phaser - Making your first game, part 9</title>
 	<script type="text/javascript" src="js/phaser.min.js"></script>
@@ -26,7 +26,7 @@ function preload() {
     game.load.atlas('head', 'assets/dave/daves.png', 'assets/dave/dave.json');
     game.load.atlas('body', 'assets/edje/edjers.png', 'assets/edje/edjers.json');
     game.load.image('logo','assets/logos/le.png');
-        
+
 }
 
 var snakeHead; //head of snake sprite
@@ -73,10 +73,10 @@ function create() {
 
     //  We will enable physics for any logo that is created in this group
     logos.enableBody = true;
-  
+
     //  The score
     scoreText = game.add.text(16, 16, 'Hello Dave, Get them logos!', { fontSize: '32px', fill: '#fff' });
-  
+
 }
 var lastKey ;
 var won =false;
@@ -121,8 +121,8 @@ function update() {
     }
     if(won) {return;}
     game.physics.arcade.overlap(snakeHead, logos, collectLogo, null, this);
-    
-    updateBody();   
+
+    updateBody();
 
 }
 
@@ -130,24 +130,24 @@ function updateBody(){
 
     // the first segment is the head itself
    snakePath[0] = new Phaser.Point(snakeHead.x, snakeHead.y);
-    
+
     // snakePath.pop();
     // looping through all segments starting from the second one
     for(var i = 1; i < snakePath.length; i++){
-    
+
         // determining the angle between current segment and previous segment
         var nodeAngle = Math.atan2(snakePath[i].y - snakePath[i - 1].y, snakePath[i].x - snakePath[i - 1].x);
-        
+
         // calculating new segment position according to previous segment position and the angle
         snakePath[i] = new Phaser.Point(snakePath[i - 1].x + snakeSpacer * Math.cos(nodeAngle), snakePath[i - 1].y + snakeSpacer * Math.sin(nodeAngle));
         if(snakeSection.length > i-1){
             snakeSection[i-1].x = snakePath[i].x;
             snakeSection[i-1].y = snakePath[i].y;
         }
-            
+
     }
 }
-function collectLogo (player, logo) {    
+function collectLogo (player, logo) {
     // Removes the star from the screen
     logo.kill();
     snakeBody(player);
@@ -156,21 +156,21 @@ function collectLogo (player, logo) {
     velocity += 10;
     scoreText.text = 'EDJERS: ' + score;
    if(score >=edjers){ win();}
-   
+
  }
 
 function snakeBody(player){
     var p = player;
     if(snakePath.length){
-       p= snakePath[snakePath.length-1]   
+       p= snakePath[snakePath.length-1]
     }
 
     var i = snakeSection.push(game.add.sprite(p.x, p.y, 'body'))-1;
-  
+
     snakeSection[i].anchor.setTo(0.5, 0.5);
     snakeSection[i].scale.setTo(scale,scale);
     snakeSection[i].frame = snakeSection.length-1 % edjers;
-    
+
     snakePath.push(new Phaser.Point(p.x,p.y))
     updateBody();
     console.log("new snakeSection created: " + p.x + "," + p.y +" sections: " + snakeSection.length + " paths: " + snakePath.length);
@@ -178,7 +178,7 @@ function snakeBody(player){
 
 }
 
-function render() {   
+function render() {
    // game.debug.spriteInfo(snakeHead, 32, 32);
 
  }
@@ -189,7 +189,7 @@ function render() {
     snakeHead.x =windowWidth/2;
     snakeHead.y =windowHeight/2;
     scoreText.text = 'You got all the EDJERS!!!';
-    for(let i = 0; i < snakeSection.length; i++ ){     
+    for(let i = 0; i < snakeSection.length; i++ ){
         snakeSection[i].body.velocity.x = velocity * Math.random() * (Math.random() > .5 ? 1 : -1);
         snakeSection[i].body.velocity.y = velocity * Math.random() * (Math.random() > .5 ? 1 : -1);
         snakeSection[i].body.bounce.y = .9;
@@ -198,6 +198,7 @@ function render() {
     }
  }
 </script>
+<script src="../../app/services/input-middleware-service.js"></script>
 
 </body>
 </html>

@@ -59,7 +59,7 @@ function GameMenuController(selector) {
 	}
 
 	function loadGames() {
-		var gameDirectory = path.join(__dirname, '/../../games');
+		var gameDirectory = path.join(__dirname, '/../../../games');
 
 		fs.readdir(gameDirectory, function(err, dirs) {
 			if(!err) {
