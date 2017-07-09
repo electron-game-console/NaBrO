@@ -12,15 +12,12 @@
 	</body>
 
 	<script>
-		(function() {
-			'use strict';
+		'use strict';
 
-			// You can also require other files to run in this process
-			const GameMenuController = require('./app/GameMenu/GameMenuController');
+		// You can also require other files to run in this process
+		const GameMenuController = require('./app/GameMenu/GameMenuController');
 
-			const menuController = new GameMenuController(document.querySelector('.game-menu'));
-			console.log(menuController);
-			menuController.bindEvents();
-		})();
+		const menuController = new GameMenuController('.game-menu');
+		menuController.bindEvents();
 	</script>
 </html>

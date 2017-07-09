@@ -43,8 +43,6 @@ function BaseController() {
 	}
 
 	function removeChildren() {
-		console.log(self.node);
-
 		if(!self.node) {
 			return;
 		}
