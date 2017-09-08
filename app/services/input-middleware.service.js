@@ -94,11 +94,18 @@
 		}
 	}
 
+	function checkGoBack() {
+		if (gamepad.buttons[8].pressed && gamepad.buttons[9].pressed) {
+			window.history.back();
+		}
+	}
+
 	function inputLoop() {
 		gamepad = navigator.getGamepads()[0];
 
 		handleButtons();
 		handleAxes();
+		checkGoBack();
 
 		start = requestAnimationFrame(inputLoop);
 	}
