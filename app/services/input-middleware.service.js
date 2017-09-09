@@ -4,10 +4,11 @@
 
 	const fs = require('fs');
 	const path = require('path');
+	const electron = require('electron');
 
-	const webview = document.querySelector('webview');
+	const webContents = electron.remote.getCurrentWebContents();
 
-	webview.addEventListener('dom-ready', () => {
+	webContents.addListener('dom-ready', () => {
 		window.addEventListener('gamepadconnected', addGamepad);
 		window.addEventListener('gamepaddisconnected', removeGamepad);
   	});
@@ -50,7 +51,11 @@
 				var up = buttonPressState[i];
 				console.log('Button ' + keybindings.buttons[i].button + (up ? ' Up' : ' Down'));
 				buttonPressState[i] = !buttonPressState[i];
-				webview.sendInputEvent({
+
+				if (keybindings.buttons[i].keyCode == null)
+					continue;
+
+				webContents.sendInputEvent({
 				  type: up ? 'keyUp' : 'keyDown',
 				  keyCode: keybindings.buttons[i].keyCode
 				});
@@ -62,7 +67,7 @@
 		for (let i = 0; i < numAxes; i++) {
 			if(gamepad.axes[i] == -1 && !axesPressState[i][0]) {
 				console.log('Axes ' + i + ' = -1');
-				webview.sendInputEvent({
+				webContents.sendInputEvent({
 				  type: 'keyDown',
 				  keyCode: keybindings.axes[i][0]
 				});
@@ -70,7 +75,7 @@
 			} else if(gamepad.axes[i] != -1 && axesPressState[i][0]) {
 				console.log('Axes ' + i + ' != -1');
 				axesPressState[i][0] = false;
-				webview.sendInputEvent({
+				webContents.sendInputEvent({
 				  type: 'keyUp',
 				  keyCode: keybindings.axes[i][0]
 				});
@@ -78,7 +83,7 @@
 
 			if(gamepad.axes[i] == 1 && !axesPressState[i][1]) {
 				console.log('Axes ' + i + ' = 1');
-				webview.sendInputEvent({
+				webContents.sendInputEvent({
 				  type: 'keyDown',
 				  keyCode: keybindings.axes[i][1]
 				});
@@ -86,7 +91,7 @@
 			} else if(gamepad.axes[i] != 1 && axesPressState[i][1]) {
 				console.log('Axes ' + i + ' != 1');
 				axesPressState[i][1] = false;
-				webview.sendInputEvent({
+				webContents.sendInputEvent({
 				  type: 'keyUp',
 				  keyCode: keybindings.axes[i][1]
 				});
@@ -103,9 +108,9 @@
 	function inputLoop() {
 		gamepad = navigator.getGamepads()[0];
 
+		checkGoBack();
 		handleButtons();
 		handleAxes();
-		checkGoBack();
 
 		start = requestAnimationFrame(inputLoop);
 	}

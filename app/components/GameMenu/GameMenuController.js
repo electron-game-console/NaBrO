@@ -40,7 +40,7 @@ function GameMenuController(selector) {
 			self.loadGames();
 		});
 
-		window.addEventListener('keyup', function(e) {
+		window.addEventListener('keydown', function(e) {
 			switch(e.keyCode) {
 				case 37: // Left
 					self.focusPreviousMenuEntry();

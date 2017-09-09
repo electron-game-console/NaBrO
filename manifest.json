@@ -1,0 +1,20 @@
+{
+	"keybindings": {
+		"buttons": [
+			{"button": "X", "keyCode": null},
+			{"button": "A", "keyCode": "Enter"},
+			{"button": "B", "keyCode": null},
+			{"button": "Y", "keyCode": null},
+			{"button": "L", "keyCode": null},
+			{"button": null, "keyCode": null},
+			{"button": "R", "keyCode": null},
+			{"button": null, "keyCode": null},
+			{"button": "SELECT", "keyCode": null},
+			{"button": "START", "keyCode": "Enter"}
+		],
+		"axes": [
+			[ "Left", "Right" ],
+			[ "Up", "Down" ]
+		]
+	}
+}
