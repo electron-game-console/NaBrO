@@ -146,7 +146,7 @@ function GameMenuController(selector) {
 
 		var i = getFocusedIndex(focusedEntry, menuEntries);
 
-		if(i <= menuEntries.length - 1) {
+		if(i < menuEntries.length - 1) {
 			menuEntries[i + 1].focus();
 		}
 	}
@@ -161,7 +161,7 @@ function GameMenuController(selector) {
 
 		var i = getFocusedIndex(focusedEntry, menuEntries);
 
-		if(i >= 0) {
+		if(i > 0) {
 			menuEntries[i - 1].focus();
 		}
 	}
