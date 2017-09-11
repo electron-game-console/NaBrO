@@ -1,0 +1,27 @@
+{
+	"title": "NaBrO Games",
+	"author": "Team Electron",
+	"site": "http://google.com/",
+	"requirements": {
+		"online": true,
+		"input": ["mouse/keyboard"]
+	},
+	"keybindings": {
+		"buttons": [
+			{"button": "X", "keyCode": null},
+			{"button": "A", "keyCode": null},
+			{"button": "B", "keyCode": null},
+			{"button": "Y", "keyCode": null},
+			{"button": "L", "keyCode": "Left"},
+			{"button": null, "keyCode": null},
+			{"button": "R", "keyCode": "Right"},
+			{"button": null, "keyCode": null},
+			{"button": "SELECT", "keyCode": null},
+			{"button": "START", "keyCode": null}
+		],
+		"axes": [
+			[ "Left", "Right" ],
+			[ "Left", "Right" ]
+		]
+	}
+}
