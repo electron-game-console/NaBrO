@@ -15,7 +15,7 @@
 
 var windowWidth = 1920;// window.screen.availWidth * window.devicePixelRatio;
 var windowHeight = 1080;//window.screen.availHeight * window.devicePixelRatio;
-var velocity = 150;
+var velocity = 250;
 var scale = 1/4;
 var edjers = 41;
 var game = new Phaser.Game(windowWidth, windowHeight, Phaser.CANVAS, 'chewe', { preload: preload, create: create, update: update,render : render });
@@ -67,7 +67,7 @@ function create() {
 
     snakeHead.body.collideWorldBounds = true;
 
-    timer = game.time.events.loop(2000, function() { gameObjs.spawn(); });
+    timer = game.time.events.loop(1000, function() { gameObjs.spawn(); });
 
     logos = game.add.group();
 
