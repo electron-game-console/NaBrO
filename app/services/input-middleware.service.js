@@ -67,7 +67,7 @@
 				if (keybindings.buttons[i].keyCode == null)
 					continue;
 
-				webContents.sendInputEvent({
+				webview.sendInputEvent({
 				  type: up ? 'keyUp' : 'keyDown',
 				  keyCode: keybindings.buttons[i].keyCode
 				});
@@ -79,7 +79,7 @@
 		for (let i = 0; i < numAxes; i++) {
 			if(gamepad.axes[i] === -1 && !axesPressState[i][0]) {
 				console.log('Axes ' + i + ' = -1');
-				webContents.sendInputEvent({
+				webview.sendInputEvent({
 				  type: 'keyDown',
 				  keyCode: keybindings.axes[i][0]
 				});
@@ -87,7 +87,7 @@
 			} else if(gamepad.axes[i] !== -1 && axesPressState[i][0]) {
 				console.log('Axes ' + i + ' != -1');
 				axesPressState[i][0] = false;
-				webContents.sendInputEvent({
+				webview.sendInputEvent({
 				  type: 'keyUp',
 				  keyCode: keybindings.axes[i][0]
 				});
@@ -95,7 +95,7 @@
 
 			if(gamepad.axes[i] === 1 && !axesPressState[i][1]) {
 				console.log('Axes ' + i + ' = 1');
-				webContents.sendInputEvent({
+				webview.sendInputEvent({
 				  type: 'keyDown',
 				  keyCode: keybindings.axes[i][1]
 				});
@@ -103,7 +103,7 @@
 			} else if(gamepad.axes[i] !== 1 && axesPressState[i][1]) {
 				console.log('Axes ' + i + ' != 1');
 				axesPressState[i][1] = false;
-				webContents.sendInputEvent({
+				webview.sendInputEvent({
 				  type: 'keyUp',
 				  keyCode: keybindings.axes[i][1]
 				});
