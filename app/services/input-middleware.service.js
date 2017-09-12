@@ -6,24 +6,12 @@
 	const path = require('path');
 	const electron = require('electron');
 
-	var webContents = document.querySelector('webview');
+	const webContents = electron.remote.getCurrentWebContents();
 
-	if (webContents !== null)
-	{
-		webContents.addEventListener('dom-ready', () => {
-			window.addEventListener('gamepadconnected', addGamepad);
-			window.addEventListener('gamepaddisconnected', removeGamepad);
-	  	});
-	}
-	else
-	{
-		webContents = electron.remote.getCurrentWebContents();
-
-		webContents.addListener('dom-ready', () => {
-			window.addEventListener('gamepadconnected', addGamepad);
-			window.addEventListener('gamepaddisconnected', removeGamepad);
-	  	});
-	}
+	webContents.addListener('dom-ready', () => {
+		window.addEventListener('gamepadconnected', addGamepad);
+		window.addEventListener('gamepaddisconnected', removeGamepad);
+  	});
 
 	var start;
 	var gamepad;
@@ -77,14 +65,14 @@
 
 	function handleAxes() {
 		for (let i = 0; i < numAxes; i++) {
-			if(gamepad.axes[i] == -1 && !axesPressState[i][0]) {
+			if(gamepad.axes[i] === -1 && !axesPressState[i][0]) {
 				console.log('Axes ' + i + ' = -1');
 				webContents.sendInputEvent({
 				  type: 'keyDown',
 				  keyCode: keybindings.axes[i][0]
 				});
 				axesPressState[i][0] = true;
-			} else if(gamepad.axes[i] != -1 && axesPressState[i][0]) {
+			} else if(gamepad.axes[i] !== -1 && axesPressState[i][0]) {
 				console.log('Axes ' + i + ' != -1');
 				axesPressState[i][0] = false;
 				webContents.sendInputEvent({
@@ -93,14 +81,14 @@
 				});
 			}
 
-			if(gamepad.axes[i] == 1 && !axesPressState[i][1]) {
+			if(gamepad.axes[i] === 1 && !axesPressState[i][1]) {
 				console.log('Axes ' + i + ' = 1');
 				webContents.sendInputEvent({
 				  type: 'keyDown',
 				  keyCode: keybindings.axes[i][1]
 				});
 				axesPressState[i][1] = true;
-			} else if(gamepad.axes[i] != 1 && axesPressState[i][1]) {
+			} else if(gamepad.axes[i] !== 1 && axesPressState[i][1]) {
 				console.log('Axes ' + i + ' != 1');
 				axesPressState[i][1] = false;
 				webContents.sendInputEvent({
