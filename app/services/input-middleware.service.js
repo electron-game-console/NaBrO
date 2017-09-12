@@ -6,12 +6,24 @@
 	const path = require('path');
 	const electron = require('electron');
 
-	const webContents = electron.remote.getCurrentWebContents();
+	var webview = document.querySelector('webview');
 
-	webContents.addListener('dom-ready', () => {
-		window.addEventListener('gamepadconnected', addGamepad);
-		window.addEventListener('gamepaddisconnected', removeGamepad);
-  	});
+	if (webview !== null)
+	{
+		webview.addEventListener('dom-ready', () => {
+			window.addEventListener('gamepadconnected', addGamepad);
+			window.addEventListener('gamepaddisconnected', removeGamepad);
+	  	});
+	}
+	else
+	{
+		webview = electron.remote.getCurrentWebContents();
+
+		webview.addListener('dom-ready', () => {
+			window.addEventListener('gamepadconnected', addGamepad);
+			window.addEventListener('gamepaddisconnected', removeGamepad);
+	  	});
+	}
 
 	var start;
 	var gamepad;
