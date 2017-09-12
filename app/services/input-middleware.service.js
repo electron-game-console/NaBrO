@@ -11,6 +11,7 @@
 	if (webview !== null)
 	{
 		webview.addEventListener('dom-ready', () => {
+			console.log('Event: webview dom-ready')
 			window.addEventListener('gamepadconnected', addGamepad);
 			window.addEventListener('gamepaddisconnected', removeGamepad);
 	  	});
@@ -20,6 +21,7 @@
 		webview = electron.remote.getCurrentWebContents();
 
 		webview.addListener('dom-ready', () => {
+			console.log('Event: webcontents dom-ready')
 			window.addEventListener('gamepadconnected', addGamepad);
 			window.addEventListener('gamepaddisconnected', removeGamepad);
 	  	});
