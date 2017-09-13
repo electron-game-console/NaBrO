@@ -7,6 +7,7 @@
 	const electron = require('electron');
 
 	var webview = document.querySelector('webview');
+	var gamepadconnectedFired = false;
 
 	if (webview !== null)
 	{
@@ -26,6 +27,15 @@
 			window.addEventListener('gamepaddisconnected', removeGamepad);
 	  	});
 	}
+
+	// Chrome/Chromium/Electron do not reliably fire gamepadconnected events.
+	window.setTimeout(function() {
+		console.log('Checking for connected gamepad...')
+		if(!gamepadconnectedFired) {
+			console.log('Gamepad not found, reloading page...')
+			window.location.reload();
+		}
+	}, 3000);
 
 	var start;
 	var gamepad;
@@ -48,6 +58,7 @@
 	}
 
 	function addGamepad(e) {
+		gamepadconnectedFired = true;
 		console.log('Gamepad ' + e.gamepad.index + ' connected.');
 		gamepad = navigator.getGamepads()[e.gamepad.index];
 
