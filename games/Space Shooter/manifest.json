@@ -1,0 +1,27 @@
+{
+	"title": "Space Shooter",
+	"author": "James McCubbin",
+	"site": "http://www.leadingedje.com",
+	"requirements": {
+		"online": false,
+		"input": ["keyboard"]
+	},
+	"keybindings": {
+		"buttons": [
+			{"button": "X", "keyCode": "Space"},
+			{"button": "A", "keyCode": "Space"},
+			{"button": "B", "keyCode": "Space"},
+			{"button": "Y", "keyCode": "Space"},
+			{"button": "L", "keyCode": null},
+			{"button": null, "keyCode": null},
+			{"button": "R", "keyCode": null},
+			{"button": null, "keyCode": null},
+			{"button": "SELECT", "keyCode": null},
+			{"button": "START", "keyCode": null}
+		],
+		"axes": [
+			[ "Left", "Right" ],
+			[ "Up", "Down" ]
+		]
+	}
+}
