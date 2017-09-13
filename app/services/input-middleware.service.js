@@ -7,10 +7,12 @@
 	const electron = require('electron');
 
 	var webview = document.querySelector('webview');
+	var gamepadconnectedFired = false;
 
 	if (webview !== null)
 	{
 		webview.addEventListener('dom-ready', () => {
+			console.log('Event: webview dom-ready')
 			window.addEventListener('gamepadconnected', addGamepad);
 			window.addEventListener('gamepaddisconnected', removeGamepad);
 	  	});
@@ -20,10 +22,20 @@
 		webview = electron.remote.getCurrentWebContents();
 
 		webview.addListener('dom-ready', () => {
+			console.log('Event: webcontents dom-ready')
 			window.addEventListener('gamepadconnected', addGamepad);
 			window.addEventListener('gamepaddisconnected', removeGamepad);
 	  	});
 	}
+
+	// Chrome/Chromium/Electron do not reliably fire gamepadconnected events.
+	window.setTimeout(function() {
+		console.log('Checking for connected gamepad...')
+		if(!gamepadconnectedFired) {
+			console.log('Gamepad not found, reloading page...')
+			window.location.reload();
+		}
+	}, 3000);
 
 	var start;
 	var gamepad;
@@ -46,6 +58,7 @@
 	}
 
 	function addGamepad(e) {
+		gamepadconnectedFired = true;
 		console.log('Gamepad ' + e.gamepad.index + ' connected.');
 		gamepad = navigator.getGamepads()[e.gamepad.index];
 
@@ -67,7 +80,7 @@
 				if (keybindings.buttons[i].keyCode == null)
 					continue;
 
-				webContents.sendInputEvent({
+				webview.sendInputEvent({
 				  type: up ? 'keyUp' : 'keyDown',
 				  keyCode: keybindings.buttons[i].keyCode
 				});
@@ -79,7 +92,7 @@
 		for (let i = 0; i < numAxes; i++) {
 			if(gamepad.axes[i] === -1 && !axesPressState[i][0]) {
 				console.log('Axes ' + i + ' = -1');
-				webContents.sendInputEvent({
+				webview.sendInputEvent({
 				  type: 'keyDown',
 				  keyCode: keybindings.axes[i][0]
 				});
@@ -87,7 +100,7 @@
 			} else if(gamepad.axes[i] !== -1 && axesPressState[i][0]) {
 				console.log('Axes ' + i + ' != -1');
 				axesPressState[i][0] = false;
-				webContents.sendInputEvent({
+				webview.sendInputEvent({
 				  type: 'keyUp',
 				  keyCode: keybindings.axes[i][0]
 				});
@@ -95,7 +108,7 @@
 
 			if(gamepad.axes[i] === 1 && !axesPressState[i][1]) {
 				console.log('Axes ' + i + ' = 1');
-				webContents.sendInputEvent({
+				webview.sendInputEvent({
 				  type: 'keyDown',
 				  keyCode: keybindings.axes[i][1]
 				});
@@ -103,7 +116,7 @@
 			} else if(gamepad.axes[i] !== 1 && axesPressState[i][1]) {
 				console.log('Axes ' + i + ' != 1');
 				axesPressState[i][1] = false;
-				webContents.sendInputEvent({
+				webview.sendInputEvent({
 				  type: 'keyUp',
 				  keyCode: keybindings.axes[i][1]
 				});

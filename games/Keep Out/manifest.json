@@ -8,10 +8,10 @@
 	},
 	"keybindings": {
 		"buttons": [
-			{"button": "X", "keyCode": null},
+			{"button": "X", "keyCode": "X"},
 			{"button": "A", "keyCode": "Space"},
-			{"button": "B", "keyCode": null},
-			{"button": "Y", "keyCode": null},
+			{"button": "B", "keyCode": "F"},
+			{"button": "Y", "keyCode": "R"},
 			{"button": "L", "keyCode": "Q"},
 			{"button": null, "keyCode": null},
 			{"button": "R", "keyCode": "E"},
